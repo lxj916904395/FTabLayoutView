@@ -192,7 +192,7 @@
     CGFloat scaleWidth = fabs(currentOffset - _contentOffsetX);
     
     //每一页的偏移量占屏幕宽的比例
-    CGFloat scale = scaleWidth/kScreenWidth;
+    CGFloat scale = scaleWidth/self.scrollView.frame.size.width;
     
     //两个标题中心点的距离
     CGFloat centerWidth = btnRight.center.x - btnLeft.center.x;
