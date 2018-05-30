@@ -7,7 +7,7 @@
 //
 
 #import "FTabLayoutView.h"
-#import <YYKit/YYKit.h>
+#import "UIView+Frame.h"
 
 @interface FTabLayoutView()
 @property(strong ,nonatomic) UIView * colorLine;
@@ -95,9 +95,7 @@
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectZero];
     line.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:.5f];
-    line.height = 1;
-    line.width = self.width;
-    line.bottom = self.bottom;
+    line.frame = CGRectMake(0,self.frame.size.height-1,self.frame.size.width,1);
     [self addSubview:line];
     
     [self addSubview:self.colorLine];
@@ -122,13 +120,13 @@
 
 - (void)setLineWidth:(CGFloat)lineWidth{
     _lineWidth = lineWidth>0?lineWidth:(self.width/self.tabTextsArr.count);
-    self.colorLine.width = _lineWidth;
+    [self.colorLine setWidth:_lineWidth];
 }
 
 - (void)setLineHeight:(CGFloat)lineHeight{
     _lineHeight = lineHeight>0?lineHeight:1.50f;
-    self.colorLine.height = _lineHeight;
-    self.colorLine.bottom = self.bottom;
+    [self.colorLine setHeight:_lineHeight] ;
+    [self.colorLine setY:self.height-_lineHeight];
 }
 #pragma mark - 选中标题
 - (void)doSelectIndex:(UIButton *)btn{
@@ -197,10 +195,10 @@
     CGFloat scale = scaleWidth/kScreenWidth;
     
     //两个标题中心点的距离
-    CGFloat centerWidth = btnRight.centerX - btnLeft.centerX;
+    CGFloat centerWidth = btnRight.center.x - btnLeft.center.x;
     
     //当前标题底线的中心x
-    CGFloat lineCenterX = self.colorLine.centerX;
+    CGFloat lineCenterX = self.colorLine.center.x;
     CGFloat newlineCenterX = 0;
     
     //左滑

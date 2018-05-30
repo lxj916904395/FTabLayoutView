@@ -12,7 +12,6 @@ Pod::Spec.new do |s|
   s.frameworks   = 'UIKit'
   s.requires_arc = true
   s.public_header_files = 'FTabLayoutView/FTabLayoutView.h'
-  s.dependency  = 'YYKit'
 
 
 end
