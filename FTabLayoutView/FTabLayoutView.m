@@ -7,6 +7,7 @@
 //
 
 #import "FTabLayoutView.h"
+#import <YYKit/YYKit.h>
 
 @interface FTabLayoutView()
 @property(strong ,nonatomic) UIView * colorLine;
@@ -169,7 +170,7 @@
     
     // 取出绝对值 避免最左边往右拉时形变超过1
     CGFloat scrollScale = self.scrollView.contentOffset.x / self.scrollView.frame.size.width;
-   
+    
     if (scrollScale < 0 || scrollScale >= self.tabTextsArr.count - 1) return;
     CGFloat value = ABS(scrollScale);
     NSUInteger leftIndex = (int)value;
