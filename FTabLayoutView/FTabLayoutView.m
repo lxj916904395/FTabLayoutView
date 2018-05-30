@@ -229,3 +229,5 @@
     self.transform = CGAffineTransformMakeScale(transformScale, transformScale);
 }
 @end
+@implementation FTabLayoutConfig
+@end
