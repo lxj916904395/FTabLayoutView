@@ -163,8 +163,6 @@
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
-    //不需要标题动画
-    if (!self.isTitleScaleAnimate)return;
     
     // 取出绝对值 避免最左边往右拉时形变超过1
     CGFloat scrollScale = self.scrollView.contentOffset.x / self.scrollView.frame.size.width;
@@ -177,14 +175,6 @@
     FTabButton *btnLeft = self.btns[leftIndex];
     FTabButton *btnRight = self.btns[rightIndex];
     
-    // 右边比例
-    CGFloat rightScale = scrollScale - leftIndex;
-    // 左边比例
-    CGFloat leftScale = 1 - rightScale;
-    
-    // 设置label的比例
-    btnLeft.scale = leftScale;
-    btnRight.scale = rightScale;
     
     CGFloat currentOffset = self.scrollView.contentOffset.x;
     
@@ -212,6 +202,16 @@
     [self.colorLine setCenterX:newlineCenterX];
     
     _contentOffsetX = currentOffset;
+    
+    // 右边比例
+    CGFloat rightScale = scrollScale - leftIndex;
+    // 左边比例
+    CGFloat leftScale = 1 - rightScale;
+    //不需要标题动画
+    if (!self.isTitleScaleAnimate)return;
+    // 设置label的比例
+    btnLeft.scale = leftScale;
+    btnRight.scale = rightScale;
 }
 
 - (void)dealloc{
