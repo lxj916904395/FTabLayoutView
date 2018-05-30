@@ -14,6 +14,13 @@
 @property(strong ,nonatomic) NSArray<NSString *> * tabTextsArr;
 @property(strong ,nonatomic) FTabLayoutConfig * config;
 
+@property(assign ,nonatomic) CGFloat lineWidth;//底线的宽
+@property(assign ,nonatomic) CGFloat lineHeight;//底线的高
+@property(assign ,nonatomic) UIColor *lineColor;//底线颜色
+@property(strong ,nonatomic) UIFont * font;//字体大小
+@property(strong ,nonatomic) UIColor * selectColor;//选中颜色
+@property(strong ,nonatomic) UIColor * nolmalColor;//未选中颜色
+
 @end
 @implementation FTabLayoutView{
     
@@ -47,16 +54,17 @@
     return _btns;
 }
 
-
-
 - (void)_createUI{
     self.userInteractionEnabled =  YES;
-    self.backgroundColor = whiteColor;
+    self.backgroundColor = [UIColor whiteColor];
     
     self.tabTextsArr = self.config.texts;
     self.lineWidth = self.config.lineWidth;
     self.lineHeight = self.config.lineHeight;
     self.lineColor = self.config.lineColor;
+    self.font = self.config.font;
+    self.selectColor = self.config.selectColor;
+    self.nolmalColor = self.config.nolmalColor;
     
     [self _createViews];
  
@@ -72,10 +80,10 @@
         FTabButton *btn = [FTabButton buttonWithType:UIButtonTypeCustom];
         
         [btn setTitle:self.tabTextsArr[i] forState:UIControlStateNormal];
-        [btn setTitleColor:themeColor forState:UIControlStateSelected];
-        [btn setTitleColor:grayColor forState:UIControlStateNormal];
+        [btn setTitleColor:self.selectColor forState:UIControlStateSelected];
+        [btn setTitleColor:self.nolmalColor forState:UIControlStateNormal];
         
-        btn.titleLabel.font = kFitFont(16);
+        btn.titleLabel.font = self.font;
         btn.tag = i;
         [btn setFrame:CGRectMake(i*_labelWidth, 0, _labelWidth, self.height)];
         [btn addTarget:self action:@selector(doSelectIndex:) forControlEvents:UIControlEventTouchUpInside];
@@ -85,7 +93,7 @@
     }
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectZero];
-    line.backgroundColor = color_f0f0f0;
+    line.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:.5f];
     line.height = 1;
     line.width = self.width;
     line.bottom = self.bottom;
@@ -94,19 +102,31 @@
     [self addSubview:self.colorLine];
 }
 
+- (void)setSelectColor:(UIColor *)selectColor{
+    _selectColor = selectColor?selectColor:[UIColor redColor];
+}
+
+- (void)setNolmalColor:(UIColor *)nolmalColor{
+    _nolmalColor = nolmalColor?nolmalColor:[UIColor grayColor];
+}
+
+- (void)setFont:(UIFont *)font{
+    _font = font?font:[UIFont systemFontOfSize:17];
+}
+
 - (void)setLineColor:(UIColor *)lineColor{
-    _lineColor = lineColor;
-    self.colorLine.backgroundColor = _lineColor?_lineColor:themeColor;
+    _lineColor = lineColor?lineColor:self.selectColor;
+    self.colorLine.backgroundColor = _lineColor;
 }
 
 - (void)setLineWidth:(CGFloat)lineWidth{
-    _lineWidth = lineWidth;
-    self.colorLine.width = _lineWidth>0?_lineWidth:(self.width/self.tabTextsArr.count);
+    _lineWidth = lineWidth>0?lineWidth:(self.width/self.tabTextsArr.count);
+    self.colorLine.width = _lineWidth;
 }
 
 - (void)setLineHeight:(CGFloat)lineHeight{
-    _lineHeight = lineHeight;
-    self.colorLine.height = _lineHeight>0?_lineHeight:1.50f;
+    _lineHeight = lineHeight>0?lineHeight:1.50f;
+    self.colorLine.height = _lineHeight;
     self.colorLine.bottom = self.bottom;
 }
 #pragma mark - 选中标题

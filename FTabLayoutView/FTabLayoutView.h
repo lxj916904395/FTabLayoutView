@@ -14,10 +14,6 @@
 
 @interface FTabLayoutView : UIView
 
-@property(assign ,nonatomic) CGFloat lineWidth;//底线的宽
-@property(assign ,nonatomic) CGFloat lineHeight;//底线的高
-@property(assign ,nonatomic) UIColor *lineColor;//底线颜色
-
 @property(assign ,nonatomic) NSInteger index;//当前title下标
 @property(strong ,nonatomic) UIScrollView * scrollView;
 
