@@ -144,7 +144,7 @@
     }];
     
     self.btns[index].selected = YES;
-    [_colorLine setCenterX:self.btns[index].centerX];
+    [_colorLine setCenterX:self.btns[index].center.x];
 }
 
 #pragma mark - 观察偏移
