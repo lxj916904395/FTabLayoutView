@@ -99,6 +99,9 @@
     [self addSubview:line];
     
     [self addSubview:self.colorLine];
+    
+    [self.colorLine setCenterX:self.btns[0].center.x];
+
 }
 
 - (void)setSelectColor:(UIColor *)selectColor{
@@ -144,7 +147,6 @@
     }];
     
     self.btns[index].selected = YES;
-    [_colorLine setCenterX:self.btns[index].center.x];
 }
 
 #pragma mark - 观察偏移
