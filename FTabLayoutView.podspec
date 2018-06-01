@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "FTabLayoutView"
-  s.version      = "0.0.3"
+  s.version      = "0.0.4"
   s.summary      = "A view for tabs"
   s.description  = "A view for tabs show with cocoapod support."
   s.homepage     = "https://github.com/lxj916904395/FTabLayoutView"

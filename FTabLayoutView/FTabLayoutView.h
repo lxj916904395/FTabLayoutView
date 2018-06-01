@@ -18,6 +18,8 @@
 
 @property(strong ,nonatomic) NSArray * texts;//标题
 
+@property(assign ,nonatomic) NSInteger defaultIndex;//默认选中
+@property(assign ,nonatomic) BOOL isEnable;//是否响应点击
 @end
 
 

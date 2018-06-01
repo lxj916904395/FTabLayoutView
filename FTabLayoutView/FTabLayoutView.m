@@ -68,8 +68,6 @@
     self.nolmalColor = self.config.nolmalColor;
     
     [self _createViews];
- 
-    self.index = 0;
 }
 
 - (void)_createViews{
@@ -100,8 +98,14 @@
     
     [self addSubview:self.colorLine];
     
-    [self.colorLine setCenterX:self.btns[0].center.x];
+    //默认选中
+    [self showDefaultIndex];
+}
 
+- (void)showDefaultIndex{
+    if(self.config.defaultIndex>_tabCount-1)
+        self.config.defaultIndex = 0;
+    self.index = self.config.defaultIndex;
 }
 
 - (void)setSelectColor:(UIColor *)selectColor{
@@ -133,8 +137,10 @@
 }
 #pragma mark - 选中标题
 - (void)doSelectIndex:(UIButton *)btn{
-    self.index = btn.tag;
     
+    if (!self.config.isEnable)return;
+        
+    self.index = btn.tag;
     //代理回调
     if (_delegate && [_delegate respondsToSelector:@selector(tabView:didSelectIndex:)]) {
         [_delegate tabView:self didSelectIndex:btn.tag];
@@ -142,16 +148,20 @@
 }
 
 - (void)setIndex:(NSInteger)index{
-    [self.btns enumerateObjectsUsingBlock:^(UIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        obj.selected = NO;
-    }];
-    
-    self.btns[index].selected = YES;
+    __weak typeof(self)weak = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weak.btns enumerateObjectsUsingBlock:^(UIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            obj.selected = NO;
+        }];
+        
+        weak.btns[index].selected = YES;
+        [weak.colorLine setCenterX:weak.btns[index].center.x];
+    });
 }
 
 #pragma mark - 观察偏移
 - (void)setScrollView:(UIScrollView *)scrollView{
-    if (scrollView) {
+    if (scrollView && self.config.isEnable) {
         _scrollView = scrollView;
         [self addObserve];
     }
