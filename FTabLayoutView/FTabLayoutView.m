@@ -98,14 +98,15 @@
     
     [self addSubview:self.colorLine];
     
-    //默认选中
     [self showDefaultIndex];
 }
 
+#pragma mark - 默认选中
 - (void)showDefaultIndex{
     if(self.config.defaultIndex>_tabCount-1)
         self.config.defaultIndex = 0;
     self.index = self.config.defaultIndex;
+    [self.colorLine setCenterX:self.btns[self.index].center.x];
 }
 
 - (void)setSelectColor:(UIColor *)selectColor{
@@ -148,6 +149,7 @@
 }
 
 - (void)setIndex:(NSInteger)index{
+    _index = index;
     __weak typeof(self)weak = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         [weak.btns enumerateObjectsUsingBlock:^(UIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -155,7 +157,6 @@
         }];
         
         weak.btns[index].selected = YES;
-        [weak.colorLine setCenterX:weak.btns[index].center.x];
     });
 }
 
